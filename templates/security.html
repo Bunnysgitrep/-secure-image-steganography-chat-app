@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Security Tech | Secure Steganography</title>
+
+<link rel="preload" href="videos/17076-278405108_medium.mp4" as="video" type="video/mp4">
+
+<style>
+html{
+    background:#000;
+    margin:0;
+}
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+body.loaded {
+    opacity: 1;
+}
+
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Consolas, monospace;
+}
+
+body{
+    min-height:100vh;
+    color:#f2f2f2;
+}
+
+/* ===== BACKGROUND VIDEO ===== */
+.bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+/* ===== OVERLAY ===== */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.3);
+    z-index:-1;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.4);
+}
+
+.topbar h1{
+    font-size:20px;
+}
+
+.back-btn{
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* ===== PANEL ===== */
+.panel{
+    max-width:750px;
+    margin:120px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px;
+    line-height:1.6;
+}
+
+/* ===== CONTENT ===== */
+.panel h2{
+    margin-bottom:20px;
+}
+
+.panel h3{
+    margin-top:25px;
+    margin-bottom:10px;
+}
+
+.panel ul{
+    margin-left:20px;
+    margin-bottom:15px;
+}
+
+.panel p{
+    margin-bottom:12px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO -->
+<video autoplay muted loop playsinline class="bg-video">
+    <source src="videos/17076-278405108_medium.mp4" type="video/mp4">
+</video>
+
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h1>Security Technologies</h1>
+    <div class="back-btn" onclick="window.location.href='/'">←</div>
+</div>
+
+<!-- PANEL -->
+<div class="panel">
+
+    <h2>🔐 Core Security Technologies Used</h2>
+
+    <h3>1️⃣ SHA-256 Key Derivation</h3>
+    <p>
+        The password is converted into a secure cryptographic key using
+        SHA-256 hashing. This ensures that the original password
+        is never stored directly.
+    </p>
+
+    <h3>2️⃣ Fernet Symmetric Encryption</h3>
+    <p>
+        The system uses Fernet encryption (based on AES).
+        It provides:
+    </p>
+    <ul>
+        <li>Confidentiality</li>
+        <li>Integrity verification</li>
+        <li>Authenticated encryption</li>
+    </ul>
+
+    <h3>3️⃣ LSB (Least Significant Bit) Steganography</h3>
+    <p>
+        The encrypted message is hidden inside the image by modifying
+        the least significant bits of pixel values.
+        This keeps the image visually unchanged.
+    </p>
+
+    <h3>4️⃣ Password Policy Enforcement</h3>
+    <ul>
+        <li>Minimum 12 characters</li>
+        <li>At least one uppercase letter</li>
+        <li>At least one lowercase letter</li>
+        <li>At least one number</li>
+        <li>At least one special character</li>
+    </ul>
+
+    <h3>5️⃣ Brute Force Protection</h3>
+    <ul>
+        <li>Maximum 3 failed attempts</li>
+        <li>Automatic 24-hour block after limit</li>
+        <li>IP-based tracking of attempts</li>
+    </ul>
+
+    <h3>6️⃣ Data Delimiter Protection</h3>
+    <p>
+        A special binary delimiter is used to mark the end of hidden data,
+        ensuring accurate extraction.
+    </p>
+
+    <h3>7️⃣ Secure Transmission (Local API)</h3>
+    <p>
+        The frontend communicates securely with the backend
+        using controlled API endpoints.
+    </p>
+
+    <p>
+        🔒 Without the correct password, the hidden message
+        cannot be recovered.
+    </p>
+
+</div>
+<script>
+window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+});
+</script>
+</body>
+</html>

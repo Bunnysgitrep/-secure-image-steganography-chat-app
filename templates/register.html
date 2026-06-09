@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register | Secure Chat</title>
+
+<!-- Preload Video Correctly -->
+<link rel="preload" href="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" as="video" type="video/mp4">
+
+<style>
+html{
+    background:#000;
+    margin:0;
+}
+
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+body.loaded {
+    opacity: 1;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Consolas, monospace;
+}
+
+body{
+    min-height:100vh;
+    color:#f2f2f2;
+}
+
+/* Background Video */
+.bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+/* Overlay */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:-1;
+}
+
+/* Topbar */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.4);
+}
+
+.back-btn{
+    cursor:pointer;
+    font-size:22px;
+}
+
+/* Panel */
+.panel{
+    max-width:520px;
+    margin:120px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px;
+}
+
+/* Inputs */
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    outline:none;
+}
+
+/* Password Rules */
+.rules{
+    font-size:12px;
+    margin-top:8px;
+    color:#ccc;
+}
+
+.counter{
+    font-size:12px;
+    margin-top:5px;
+    color:#aaa;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.3);
+    color:#fff;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    background:rgba(255,255,255,0.25);
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:5;
+}
+
+.popup-box{
+    background:rgba(0,0,0,0.9);
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+    width:350px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Video -->
+<video autoplay muted loop playsinline preload="none" class="bg-video">
+    <source src="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<div class="topbar">
+    <h2>Register</h2>
+    <!-- FIXED BACK BUTTON -->
+    <div class="back-btn" onclick="window.location.href='/'">←</div>
+</div>
+
+<div class="panel">
+
+    <label>Full Name</label>
+    <input type="text" id="fullName">
+
+    <label>Born Year</label>
+    <input type="number" id="birthYear">
+
+    <label>Life Hero</label>
+    <input type="text" id="lifeHero">
+
+    <label>Email</label>
+    <input type="email" id="email">
+
+    <label>Password</label>
+    <input type="password" id="password">
+    <div class="counter">Length: <span id="passCount">0</span></div>
+
+    <div class="rules">
+        <div id="lower">✖ Lowercase</div>
+        <div id="upper">✖ Uppercase</div>
+        <div id="number">✖ Number</div>
+        <div id="special">✖ Special character</div>
+        <div id="length">✖ Minimum 12 characters</div>
+    </div>
+
+    <label>Confirm Password</label>
+    <input type="password" id="confirmPassword">
+
+    <button onclick="generateUsername()">Generate Username</button>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <h3>Your Username</h3>
+        <p id="generatedUsername"></p>
+        <button onclick="copyUsername()">Copy Username</button>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+document.getElementById("password").addEventListener("input", function(){
+
+    const value = this.value;
+    document.getElementById("passCount").innerText = value.length;
+
+    document.getElementById("lower").innerText =
+        /[a-z]/.test(value) ? "✔ Lowercase" : "✖ Lowercase";
+
+    document.getElementById("upper").innerText =
+        /[A-Z]/.test(value) ? "✔ Uppercase" : "✖ Uppercase";
+
+    document.getElementById("number").innerText =
+        /[0-9]/.test(value) ? "✔ Number" : "✖ Number";
+
+    document.getElementById("special").innerText =
+        /[\W_]/.test(value) ? "✔ Special character" : "✖ Special character";
+
+    document.getElementById("length").innerText =
+        value.length >= 12 ? "✔ Minimum 12 characters" : "✖ Minimum 12 characters";
+});
+
+async function generateUsername(){
+
+    const name = document.getElementById("fullName").value.trim();
+    const year = document.getElementById("birthYear").value.trim();
+    const hero = document.getElementById("lifeHero").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if(!name || !year || !hero || !email || !password || !confirmPassword){
+        alert("All fields are required.");
+        return;
+    }
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match.");
+        return;
+    }
+
+    const strongRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/;
+
+    if(!strongRegex.test(password)){
+        alert("Password not strong enough.");
+        return;
+    }
+
+    const username =
+        name.split(" ")[0].toLowerCase() +
+        hero[0].toLowerCase() +
+        year.slice(-2) +
+        Math.floor(Math.random()*90+10);
+
+    try{
+        const response = await fetch("/register", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                fullName:name,
+                birthYear:year,
+                lifeHero:hero,
+                email:email,
+                password:password,
+                username:username
+            })
+        });
+
+        const data = await response.json();
+
+        if(response.ok){
+            document.getElementById("generatedUsername").innerText = username;
+            document.getElementById("popup").style.display="flex";
+        }else{
+            alert(data.error);
+        }
+
+    }catch(error){
+        alert("Backend not running.");
+    }
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+function copyUsername(){
+    const text=document.getElementById("generatedUsername").innerText;
+    navigator.clipboard.writeText(text);
+    alert("Username copied!");
+}
+</script>
+<script>
+window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+});
+</script>
+</body>
+</html>

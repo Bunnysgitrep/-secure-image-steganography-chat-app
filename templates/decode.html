@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Decode | Secure Steganography</title>
+
+<!-- Proper Preload -->
+<link rel="preload" href="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" as="video" type="video/mp4">
+
+<style>
+html{
+    background:#000;
+    margin:0;
+}
+
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+body.loaded {
+    opacity: 1;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Consolas, monospace;
+}
+
+body{
+    min-height:100vh;
+    color:#f2f2f2;
+}
+
+/* Background Video */
+.bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+/* Overlay */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:-1;
+}
+
+/* Topbar */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.4);
+}
+
+.back-btn{
+    cursor:pointer;
+    font-size:22px;
+}
+
+/* Panel */
+.panel{
+    max-width:520px;
+    margin:120px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px;
+}
+
+/* Inputs */
+input{
+    width:100%;
+    padding:12px;
+    margin-top:18px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.08);
+    color:#fff;
+    outline:none;
+}
+
+input[type="file"]{
+    background:transparent;
+}
+
+/* Button */
+button{
+    width:100%;
+    padding:14px;
+    margin-top:25px;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.3);
+    color:#fff;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    background:rgba(255,255,255,0.25);
+}
+
+/* Result */
+.result{
+    font-size:14px;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Video -->
+<video autoplay muted loop playsinline preload="none" class="bg-video">
+    <source src="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- Topbar -->
+<div class="topbar">
+    <h2>Decode Message</h2>
+    <!-- FIXED BACK BUTTON -->
+    <div class="back-btn" onclick="window.location.href='/'">←</div>
+</div>
+
+<!-- Panel -->
+<div class="panel">
+
+    <label>Choose Image</label>
+    <input type="file" id="decodeImage" accept="image/*">
+
+    <label>Password</label>
+    <input type="password" id="decodePassword" placeholder="Enter password">
+
+    <button id="decodeBtn">Decode</button>
+
+    <div id="resultBox" class="result"></div>
+
+</div>
+
+<script>
+document.getElementById("decodeBtn").addEventListener("click", function(){
+
+    const imageInput = document.getElementById("decodeImage");
+    const passwordInput = document.getElementById("decodePassword");
+    const resultBox = document.getElementById("resultBox");
+
+    if(!imageInput.files.length || !passwordInput.value){
+        alert("All fields are required.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", imageInput.files[0]);
+    formData.append("password", passwordInput.value);
+
+    fetch("/decode", {   // ✅ relative route (better)
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if(data.message){
+            resultBox.style.color = "#00ff88";
+            resultBox.innerText = "Message: " + data.message;
+        }
+        else{
+            resultBox.style.color = "#ff6b6b";
+            resultBox.innerText = data.error;
+        }
+
+    })
+    .catch(() => {
+        alert("Server error.");
+    });
+
+});
+</script>
+<script>
+window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+});
+</script>
+</body>
+</html>

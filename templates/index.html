@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure Steganography Toolkit</title>
+
+<link rel="preload" href="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" as="video" type="video/mp4">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='js/anim.js') }}" defer></script>
+
+<style>
+html {
+    background: #000;
+    margin:0;
+}
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+body.loaded {
+    opacity: 1;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ===== BACKGROUND VIDEO ===== -->
+<video autoplay muted loop playsinline class="bg-video">
+    <source src="{{ url_for('static', filename='videos/17076-278405108_medium.mp4') }}" type="video/mp4">
+</video>
+
+<!-- ===== DARK OVERLAY ===== -->
+<div class="overlay"></div>
+
+<!-- ===== TOP NAV ===== -->
+<header class="topbar">
+
+    <h1>Secure Steganography Toolkit</h1>
+
+    <div class="chat-container">
+        <div class="chat-logo">💬 Chat</div>
+
+        <div class="chat-options">
+
+            <div class="dropdown-title">
+                <h6><b>To Share Keys / Password</b></h6>
+            </div>
+
+            <div onclick="navigateTo('/register-page')">
+                Register Username
+            </div>
+
+            <div onclick="navigateTo('/login-page')">
+                Login Username
+            </div>
+
+        </div>
+    </div>
+
+</header>
+
+<!-- ===== MAIN DASHBOARD ===== -->
+<main class="dashboard">
+
+    <div class="panel" onclick="navigateTo('/encode-page')">
+        <h2>Encode</h2>
+        <p>Encrypt and hide secret messages inside images securely.</p>
+    </div>
+
+    <div class="panel" onclick="navigateTo('/decode-page')">
+        <h2>Decode</h2>
+        <p>Extract hidden encrypted data from steganographic images.</p>
+    </div>
+
+    <div class="panel" onclick="navigateTo('/how-page')">
+        <h2>How It Works</h2>
+        <p>Understand the encryption and embedding process.</p>
+    </div>
+
+    <div class="panel" onclick="navigateTo('/security-page')">
+        <h2>Security Tech</h2>
+        <p>Explore encryption methods and threat protection.</p>
+    </div>
+
+</main>
+
+<footer class="footer">
+    Cybersecurity Mini Project • Steganography System
+</footer>
+
+<script>
+function navigateTo(route){
+    document.body.style.opacity = "0";
+    document.body.style.transition = "opacity 0.3s ease";
+    setTimeout(()=>{
+        window.location.href = route;
+    }, 300);
+}
+</script>
+<script>
+window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+});
+</script>
+</body>
+</html>

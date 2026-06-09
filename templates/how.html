@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>How It Works | Secure Steganography</title>
+
+<link rel="preload" href="videos/17076-278405108_medium.mp4" as="video" type="video/mp4">
+
+<style>
+html{
+    background: #000;
+    margin:0;
+}
+body {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+body.loaded {
+    opacity: 1;
+}
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI", Consolas, monospace;
+}
+
+body{
+    min-height:100vh;
+    color:#f2f2f2;
+    
+}
+
+/* ===== BACKGROUND VIDEO ===== */
+.bg-video{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-2;
+}
+
+/* ===== OVERLAY ===== */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.3);
+    z-index:-1;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(0,0,0,0.4);
+}
+
+.topbar h1{
+    font-size:20px;
+}
+
+.back-btn{
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* ===== PANEL ===== */
+.panel{
+    max-width:700px;
+    margin:120px auto;
+    position:absolute;
+    top:45%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    padding:40px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:10px;
+    line-height:1.6;
+}
+
+/* ===== HEADINGS ===== */
+.panel h2{
+    margin-bottom:20px;
+}
+
+.panel p{
+    margin-bottom:15px;
+}
+
+.panel ul{
+    margin-left:20px;
+    margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- VIDEO -->
+<video autoplay muted loop playsinline class="bg-video">
+    <source src="videos/17076-278405108_medium.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h1>How It Works</h1>
+    <div class="back-btn" onclick="window.location.href='/'">←</div>
+</div>
+
+<!-- PANEL -->
+<div class="panel">
+
+    <h2>🔐 Secure Steganography Process</h2>
+
+    <p>
+        This system hides encrypted messages inside images using
+        <strong>LSB (Least Significant Bit) steganography</strong>.
+    </p>
+
+    <h3>Step 1: Encryption</h3>
+    <ul>
+        <li>Your secret message is encrypted using a password.</li>
+        <li>Encryption uses SHA-256 key generation and Fernet symmetric encryption.</li>
+        <li>This ensures only the correct password can decrypt the message.</li>
+    </ul>
+
+    <h3>Step 2: Hiding Inside Image</h3>
+    <ul>
+        <li>The encrypted message is converted into binary.</li>
+        <li>Each bit is stored in the least significant bit of image pixels.</li>
+        <li>This does not visibly change the image appearance.</li>
+    </ul>
+
+    <h3>Step 3: Extraction</h3>
+    <ul>
+        <li>The system reads the least significant bits from the image.</li>
+        <li>The binary data is reconstructed.</li>
+        <li>The message is decrypted using the correct password.</li>
+    </ul>
+
+    <h3>Security Features</h3>
+    <ul>
+        <li>Strong password validation (uppercase, lowercase, number, special character).</li>
+        <li>3 failed attempts limit.</li>
+        <li>24-hour block after multiple failed attempts.</li>
+        <li>End-of-data delimiter protection.</li>
+    </ul>
+
+    <p>
+        Without the correct password, the hidden message cannot be decrypted.
+    </p>
+
+</div>
+<script>
+window.addEventListener("load", function(){
+    document.body.classList.add("loaded");
+});
+</script>
+</body>
+</html>
